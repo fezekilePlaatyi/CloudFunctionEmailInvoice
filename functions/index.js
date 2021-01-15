@@ -31,7 +31,7 @@ exports.sendInvoiceEmail = functions.https.onRequest((req, res) => {
                 let total = item.price * item.quantity
                 subTotalPrice += total
         
-                total.toLocaleString('en-US', {maximumFractionDigits:2})
+                // total.toLocaleString('en-US', {maximumFractionDigits:2})
 
                 htmlTableBody += "<tr>";
                 htmlTableBody +=
@@ -39,7 +39,7 @@ exports.sendInvoiceEmail = functions.https.onRequest((req, res) => {
                     <td style="border-bottom: 1px solid #dddddd;text-align: left;padding: 8px;vertical-align: top;">${item.name}</td>
                     <td style="border-bottom: 1px solid #dddddd;text-align: left;padding: 8px;vertical-align: top;">${item.price}</td>
                     <td style="border-bottom: 1px solid #dddddd;text-align: left;padding: 8px;vertical-align: top; text-align:center">${item.quantity}</td>
-                    <td style="border-bottom: 1px solid #dddddd;text-align: left;padding: 8px;vertical-align: top;">${total}</td>
+                    <td style="border-bottom: 1px solid #dddddd;text-align: left;padding: 8px;vertical-align: top;">${total.toLocaleString('en-US', {maximumFractionDigits:2})}</td>
                 </tr>
                 `
                 htmlTableBody += "</tr>";
