@@ -149,15 +149,17 @@ exports.sendInvoiceEmail = functions.https.onRequest((req, res) => {
             }).then(() => {
                 var url = "https://storage.googleapis.com/hydradet-online-store.appspot.com/"+filename
                 
-
-                var transporter = nodemailer.createTransport({
-                    service: EMAIL_PROVIDER,
+                var smtpConfig = {
+                    host: 'smtp.gmail.com',
+                    port: 465,
+                    secure: true, // use SSL
                     auth: {
                         user: DCX_EMAIL_ACCOUNT,
                         pass: DCX_EMAIL_PASSWORD
                     }
-                });
-        
+                };
+                var transporter = nodemailer.createTransport(smtpConfig)
+                
                 var mailOptions = {
                     attachments: [
                     {
