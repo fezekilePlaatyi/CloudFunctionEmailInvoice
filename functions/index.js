@@ -138,7 +138,7 @@ exports.sendInvoiceEmail = functions.https.onRequest((req, res) => {
         pdf.create(html, options).toFile(localPDFFile, function(err, res) {
             if (err) {
                 console.log(err);
-                res.send("Hey 3");
+                res.send(err);
             }
     
             return bucket.upload(localPDFFile, {
@@ -149,14 +149,16 @@ exports.sendInvoiceEmail = functions.https.onRequest((req, res) => {
             }).then(() => {
                 var url = "https://storage.googleapis.com/hydradet-online-store.appspot.com/"+filename
                 
-
-                var transporter = nodemailer.createTransport({
-                    service: EMAIL_PROVIDER,
+                var smtpConfig = {
+                    host: 'smtp.gmail.com',
+                    port: 465,
+                    secure: true, // use SSL
                     auth: {
                         user: DCX_EMAIL_ACCOUNT,
                         pass: DCX_EMAIL_PASSWORD
                     }
-                });
+                };
+                var transporter = nodemailer.createTransport(smtpConfig);
         
                 var mailOptions = {
                     attachments: [
@@ -182,16 +184,16 @@ exports.sendInvoiceEmail = functions.https.onRequest((req, res) => {
                     if (error) {
                         console.log("error sending email")
                         console.log(error)
-                        res.status(200).send("error");
+                        res.send("error");
                     } else {
-                        res.status(200).send("sent");
+                        res.send("sent");
                     }
                 }); 
 
 
             }).catch(error => {
                 console.error(error);
-                res.status(200).send(error);
+                res.send(error);
             });
         }); 
     })
