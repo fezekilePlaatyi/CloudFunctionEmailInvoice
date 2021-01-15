@@ -31,6 +31,8 @@ exports.sendInvoiceEmail = functions.https.onRequest((req, res) => {
                 let total = item.price * item.quantity
                 subTotalPrice += total
         
+                total.toLocaleString('en-US', {maximumFractionDigits:2})
+
                 htmlTableBody += "<tr>";
                 htmlTableBody +=
                 `<tr>
